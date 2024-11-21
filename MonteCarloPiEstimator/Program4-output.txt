@@ -1,0 +1,30 @@
+Name:   Silvia Asmat
+Course:   COSC 4302 - Operating Systems
+Program:  Four
+Due Date: 11/17/2024
+
+Number of threads being used: 12
+Enter the number of points to generate (0 to exit): a
+Invalid input. Please enter a positive integer.
+Enter the number of points to generate (0 to exit): -1
+Invalid input. Please enter a positive integer.
+Enter the number of points to generate (0 to exit): 1  
+Estimated value of π: 0.0
+Enter the number of points to generate (0 to exit): 1000
+Estimated value of π: 3.116
+Enter the number of points to generate (0 to exit): 5000
+Estimated value of π: 3.108
+Enter the number of points to generate (0 to exit): 10000
+Estimated value of π: 3.1452
+Enter the number of points to generate (0 to exit): 20000
+Estimated value of π: 3.126
+Enter the number of points to generate (0 to exit): 30000
+Estimated value of π: 3.134533333333333
+Enter the number of points to generate (0 to exit): 50000
+Estimated value of π: 3.1308
+Enter the number of points to generate (0 to exit): 90000
+Estimated value of π: 3.140488888888889
+Enter the number of points to generate (0 to exit): 100000
+Estimated value of π: 3.1422
+Enter the number of points to generate (0 to exit): 0   
+Exiting program.

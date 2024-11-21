@@ -1,0 +1,24 @@
+Name:     Silvia Asmat
+Course:   COSC 4302 - Operating Systems
+Program:  One
+Due Date: 09/22/2024
+
+Enter source file name: 
+test.txt
+Enter destination file name: 
+test-output.txt       
+File Copied
+silviaasmat@Yruas-MBP ProgramOne % 
+silviaasmat@Yruas-MBP ProgramOne %  cd /Users/silviaasmat/OperatingSystems/ProgramOne ; /usr/bin/env /
+Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java -cp /Users/silviaasmat/Libra
+ry/Application\ Support/Code/User/workspaceStorage/0c5b6c043433a2c46dfd0ace8f034fbb/redhat.java/jdt_ws
+/ProgramOne_7608671f/bin Program1 
+Name:     Silvia Asmat
+Course:   COSC 4302 - Operating Systems
+Program:  One
+Due Date: 09/22/2024
+
+Enter source file name: 
+nonexistent
+Source file not found
+An error occurred while reading or writing the file

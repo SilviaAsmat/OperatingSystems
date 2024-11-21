@@ -1,0 +1,382 @@
+Name:   Silvia Asmat
+Course:   COSC 4302 - Operating Systems
+Program:  Three
+Due Date: 10/20/2024
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type: FCFS
+Enter the schedule filename: tasks.txt
+Will run Name:     T0
+TaskID:   0
+Priority: 4
+Burst:    20
+
+Task 0 has finished executing.
+Waiting time is 0.0
+Turnaround time is 20.0
+
+Will run Name:     T1
+TaskID:   1
+Priority: 2
+Burst:    25
+
+Task 1 has finished executing.
+Waiting time is 20.0
+Turnaround time is 45.0
+
+Will run Name:     T2
+TaskID:   2
+Priority: 3
+Burst:    25
+
+Task 2 has finished executing.
+Waiting time is 45.0
+Turnaround time is 70.0
+
+Will run Name:     T3
+TaskID:   3
+Priority: 3
+Burst:    15
+
+Task 3 has finished executing.
+Waiting time is 70.0
+Turnaround time is 85.0
+
+Will run Name:     T4
+TaskID:   4
+Priority: 10
+Burst:    10
+
+Task 4 has finished executing.
+Waiting time is 85.0
+Turnaround time is 95.0
+
+
+Average waiting time is 44.0
+Average turnaround time is 63.0
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type or "End" to exit: SJF
+Enter the schedule filename: tasks.txt
+Will run Name:     T4
+TaskID:   9
+Priority: 10
+Burst:    10
+
+Task 9 has finished executing.
+Waiting time is 0.0
+Turnaround time is 10.0
+
+Will run Name:     T3
+TaskID:   8
+Priority: 3
+Burst:    15
+
+Task 8 has finished executing.
+Waiting time is 10.0
+Turnaround time is 25.0
+
+Will run Name:     T0
+TaskID:   5
+Priority: 4
+Burst:    20
+
+Task 5 has finished executing.
+Waiting time is 25.0
+Turnaround time is 45.0
+
+Will run Name:     T1
+TaskID:   6
+Priority: 2
+Burst:    25
+
+Task 6 has finished executing.
+Waiting time is 45.0
+Turnaround time is 70.0
+
+Will run Name:     T2
+TaskID:   7
+Priority: 3
+Burst:    25
+
+Task 7 has finished executing.
+Waiting time is 70.0
+Turnaround time is 95.0
+
+
+Average waiting time is 30.0
+Average turnaround time is 49.0
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type or "End" to exit: PRI
+Enter the schedule filename: tasks.txt
+Will run Name:     T0
+TaskID:   10
+Priority: 4
+Burst:    20
+
+Task 10 has finished executing.
+Waiting time is 0.0
+Turnaround time is 20.0
+
+Will run Name:     T2
+TaskID:   12
+Priority: 3
+Burst:    25
+
+Task 12 has finished executing.
+Waiting time is 20.0
+Turnaround time is 45.0
+
+Will run Name:     T3
+TaskID:   13
+Priority: 3
+Burst:    15
+
+Task 13 has finished executing.
+Waiting time is 45.0
+Turnaround time is 60.0
+
+Will run Name:     T1
+TaskID:   11
+Priority: 2
+Burst:    25
+
+Task 11 has finished executing.
+Waiting time is 60.0
+Turnaround time is 85.0
+
+
+Average waiting time is 31.25
+Average turnaround time is 52.5
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type or "End" to exit: RR
+Enter the schedule filename: tasks.txt
+Will run Name:     T0
+TaskID:   15
+Priority: 4
+Burst:    15
+
+Will run Name:     T1
+TaskID:   16
+Priority: 2
+Burst:    20
+
+Will run Name:     T2
+TaskID:   17
+Priority: 3
+Burst:    20
+
+Will run Name:     T3
+TaskID:   18
+Priority: 3
+Burst:    10
+
+Will run Name:     T4
+TaskID:   19
+Priority: 10
+Burst:    5
+
+Will run Name:     T0
+TaskID:   15
+Priority: 4
+Burst:    10
+
+Will run Name:     T1
+TaskID:   16
+Priority: 2
+Burst:    15
+
+Will run Name:     T2
+TaskID:   17
+Priority: 3
+Burst:    15
+
+Will run Name:     T3
+TaskID:   18
+Priority: 3
+Burst:    5
+
+Will run Name:     T4
+TaskID:   19
+Priority: 10
+Burst:    0
+
+Task 19 has finished executing.
+Waiting time is 40.0
+Turnaround time is 50.0
+
+Will run Name:     T0
+TaskID:   15
+Priority: 4
+Burst:    5
+
+Will run Name:     T1
+TaskID:   16
+Priority: 2
+Burst:    10
+
+Will run Name:     T2
+TaskID:   17
+Priority: 3
+Burst:    10
+
+Will run Name:     T3
+TaskID:   18
+Priority: 3
+Burst:    0
+
+Task 18 has finished executing.
+Waiting time is 55.0
+Turnaround time is 70.0
+
+Will run Name:     T0
+TaskID:   15
+Priority: 4
+Burst:    0
+
+Task 15 has finished executing.
+Waiting time is 55.0
+Turnaround time is 75.0
+
+Will run Name:     T1
+TaskID:   16
+Priority: 2
+Burst:    5
+
+Will run Name:     T2
+TaskID:   17
+Priority: 3
+Burst:    5
+
+Will run Name:     T1
+TaskID:   16
+Priority: 2
+Burst:    0
+
+Task 16 has finished executing.
+Waiting time is 65.0
+Turnaround time is 90.0
+
+Will run Name:     T2
+TaskID:   17
+Priority: 3
+Burst:    0
+
+Task 17 has finished executing.
+Waiting time is 70.0
+Turnaround time is 95.0
+
+
+Average waiting time is 57.0
+Average turnaround time is 76.0
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type or "End" to exit: PRI-RR
+Enter the schedule filename: tasks.txt
+Will run Name:     T0
+TaskID:   20
+Priority: 4
+Burst:    20
+
+Task 20 has finished executing.
+Waiting time is 0.0
+Turnaround time is 20.0
+
+Will run Name:     T2
+TaskID:   22
+Priority: 3
+Burst:    25
+
+Will run Name:     T3
+TaskID:   23
+Priority: 3
+Burst:    15
+
+Will run Name:     T2
+TaskID:   22
+Priority: 3
+Burst:    20
+
+Will run Name:     T3
+TaskID:   23
+Priority: 3
+Burst:    10
+
+Will run Name:     T2
+TaskID:   22
+Priority: 3
+Burst:    15
+
+Will run Name:     T3
+TaskID:   23
+Priority: 3
+Burst:    5
+
+Task 23 has finished executing.
+Waiting time is 35.0
+Turnaround time is 50.0
+
+Will run Name:     T2
+TaskID:   22
+Priority: 3
+Burst:    10
+
+Task 22 has finished executing.
+Waiting time is 35.0
+Turnaround time is 60.0
+
+Will run Name:     T1
+TaskID:   21
+Priority: 2
+Burst:    25
+
+Task 21 has finished executing.
+Waiting time is 60.0
+Turnaround time is 85.0
+
+
+Average waiting time is 32.5
+Average turnaround time is 53.75
+
+Scheduling Algorithms
+FCFS   - First-come, first-served scheduling
+SJF    - Shortest-job-first scheduling
+PRI    - Priority scheduling
+RR     - Round-robin scheduling
+PRI-RR - Priority with round-robin scheduling
+
+Enter the algorithm type or "End" to exit: end
+
+Thanks for using the CPU scheduler - Bye!
