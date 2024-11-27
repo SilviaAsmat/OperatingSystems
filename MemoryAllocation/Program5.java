@@ -23,21 +23,12 @@ public class Program5
         String input = "";
         while (!input.equalsIgnoreCase("X")) 
         {
-            System.out.print("allocator> ");
+            System.out.print("==================================================\nallocator> ");
             if(scanner.hasNextLine())
             {
                 input = scanner.nextLine();
                 String[] columns = input.trim().split("[\\s,]+");
-                // System.out.println("Columns:" + java.util.Arrays.toString(columns));
-                // String input = "RQ P0 1000 F";
-                try {
-                    // System.out.println("Input: '" + input + "'");
-                    // String[] columns = input.trim().split("[\\s,]+");
-                    
-                    processMemoryOption(columns);
-                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Input Error: Invalid Option");
-                }
+                processMemoryOption(columns);
             }
             else
             {
@@ -49,7 +40,7 @@ public class Program5
 
     public void processMemoryOption(String[] userInput)
     {
-        switch (userInput[0]) 
+        switch (userInput[0].toUpperCase()) 
         {
             // Request memory
             case "RQ" -> 

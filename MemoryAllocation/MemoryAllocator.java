@@ -23,13 +23,13 @@ public class MemoryAllocator
         }
         else
         {
-                switch (strategy) 
-            {
-                case 'F' -> firstFit(processId, memorySize);
-                case 'B' -> bestFit(processId, memorySize);
-                case 'W' -> worstFit(processId, memorySize);
-                default -> System.out.println("Invalid strategy.");
-            }
+            switch (strategy) 
+                {
+                    case 'F', 'f' -> firstFit(processId, memorySize);
+                    case 'B', 'b' -> bestFit(processId, memorySize);
+                    case 'W', 'w' -> worstFit(processId, memorySize);
+                    default -> System.out.println("Invalid strategy.");
+                }
         }
         
     }
@@ -57,16 +57,7 @@ public class MemoryAllocator
             targetBlock.setSize(targetBlock.getSize() - newBlockSize);
             targetBlock.setStartAddress(targetBlock.getStartAddress() + newBlockSize);
         } 
-        // Print out memoryBlocks
-        System.out.println("Current memory blocks:");
-        for (MemoryBlock block : memoryBlocks) 
-        {
-            int endAddress = (int) (block.getStartAddress() + block.getSize() - 1);
-            System.out.println("Addresses: [" + block.getStartAddress() + "]:[" + endAddress  + "] - " + block.getSize()
-                                + " bytes" + block.getProcessId().toUpperCase());
-        }
     }
- 
     public void compactMemory() 
     {
         int lastNotFreeBlockFoundAt = -1;
@@ -115,8 +106,8 @@ public class MemoryAllocator
         if (index != -1)
         {
             memoryBlocks.get(index).setFree(true);
-            combineBlocks(index);
-            
+            memoryBlocks.get(index).setProcessId("Unused");
+            combineBlocks(index);   
         }
         else
         {
@@ -127,27 +118,25 @@ public class MemoryAllocator
     public void combineBlocks(int index)
     {
         if (memoryBlocks.get(index + 1).isFree()) 
-            {
-                memoryBlocks.get(index).setSize(memoryBlocks.get(index).getSize() + memoryBlocks.get(index + 1).getSize());
-                memoryBlocks.remove(index + 1);
-            }
-
-            if (memoryBlocks.get(index - 1).isFree()) 
-            {
-                memoryBlocks.get(index).setSize(memoryBlocks.get(index).getSize() + memoryBlocks.get(index - 1).getSize());
-                memoryBlocks.remove(index - 1);
-            }
+        {
+            memoryBlocks.get(index).setSize(memoryBlocks.get(index).getSize() + memoryBlocks.get(index + 1).getSize());
+            memoryBlocks.remove(index + 1);
+        }
+        if (memoryBlocks.get(index - 1).isFree()) 
+        {
+            memoryBlocks.get(index).setSize(memoryBlocks.get(index).getSize() + memoryBlocks.get(index - 1).getSize());
+            memoryBlocks.remove(index - 1);
+        }
     }
 
     public void reportStatus() 
     {
-        System.out.println("Memory Status:");
+        System.out.println("Total amount of blocks: " + memoryBlocks.size() + " blocks");
         System.out.println("Current memory blocks:");
         for (MemoryBlock block : memoryBlocks) 
         {
             int endAddress = (int) (block.getStartAddress() + block.getSize() - 1);
-            System.out.println(block.getProcessId() + "Address: [" + block.getStartAddress() + "]:[" + endAddress  + "] - " + block.getSize()
-                                + " bytes" + (block.isFree() ? " (Free)" : " (In Use)"));
+            System.out.println("Addresses: [" + block.getStartAddress() + "]:[" + endAddress + "] " + (block.isFree() ? "Process " : "") + block.getProcessId().toUpperCase());
         }
     }  
 
