@@ -17,27 +17,31 @@ public class Program5
 
     public void runProgram()
     {
-        System.out.print("Enter the initial amount of memory (in MB): ");
-        int initialMemoryMB = scanner.nextInt();
-        long initialMemoryBytes = initialMemoryMB * 1048576;
-        allocator = new MemoryAllocator(initialMemoryBytes);
+        System.out.print("Enter the initial memory size in MB: ");
+        long initialMemoryBytes = getIntFromUser() * 1048576;
+        allocator = new MemoryAllocator(initialMemoryBytes, "Unused");
         String input = "";
-        while (!input.equals("X")) 
+        while (!input.equalsIgnoreCase("X")) 
         {
             System.out.print("allocator> ");
-            input = scanner.nextLine();
-            // String[] columns = input.trim().split("[\\s,]+");
-            // System.out.println("Columns:" + java.util.Arrays.toString(columns));
-            //String input = "RQ P0 1000 F";
-            try {
-                System.out.println("Input: '" + input + "'");
+            if(scanner.hasNextLine())
+            {
+                input = scanner.nextLine();
                 String[] columns = input.trim().split("[\\s,]+");
-                for (String column : columns) {
-                    System.out.println("Column: '" + column + "'");
+                // System.out.println("Columns:" + java.util.Arrays.toString(columns));
+                // String input = "RQ P0 1000 F";
+                try {
+                    // System.out.println("Input: '" + input + "'");
+                    // String[] columns = input.trim().split("[\\s,]+");
+                    
+                    processMemoryOption(columns);
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Input Error: Invalid Option");
                 }
-                processMemoryOption(columns);
-            } catch (Exception e) {
-                System.out.println("Error: Invalid Input");
+            }
+            else
+            {
+                System.out.println("Invalid input.");
             }
             
         }// end while
@@ -45,26 +49,32 @@ public class Program5
 
     public void processMemoryOption(String[] userInput)
     {
-        //             allocator>RQ P0 40000 W  
-        // The first parameter to the RQ command is the new process that requires the memory, 
-        // followed  by  the  amount  of  memory  being  requested,  and  finally  the  strategy.  (In  this 
-        // situation, “W” refers to worst fit.)
         switch (userInput[0]) 
         {
             // Request memory
             case "RQ" -> 
             {
-                String processId = userInput[1];
-                int size = Integer.parseInt(userInput[2]);
-                //Change to check if it's one char
-                char[] column2 = userInput[3].toCharArray();
-                char strategy = column2[0];
-                allocator.requestMemory(processId, size, strategy);
+                if (userInput.length < 4) {
+                    System.out.println("Error: Invalid Input");
+                    return;
+                }
+                try {
+                    String processId = userInput[1];
+                    int size = Integer.parseInt(userInput[2]);
+                    char strategy = userInput[3].charAt(0);
+                    allocator.requestMemory(processId, size, strategy);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Invalid Input");
+                }
             }
             // Release memory
             case "RL" -> 
             {
-                String processId = scanner.next();
+                if (userInput.length < 2) {
+                    System.out.println("Error: Invalid Input");
+                    return;
+                }
+                String processId = userInput[1];
                 allocator.releaseMemory(processId);
             }
             // Compact memory
@@ -78,5 +88,24 @@ public class Program5
             }
             default -> System.out.println("Invalid command.");
         }
+    }
+
+    private int getIntFromUser()
+    {
+        int number = 0;
+        while(number <= 0)
+        {
+            if (!scanner.hasNextInt())
+            {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.next();
+            }
+            else
+            {
+                number = scanner.nextInt();
+                scanner.nextLine();
+            }
+        }
+        return number;
     }
 }
