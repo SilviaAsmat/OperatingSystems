@@ -5,9 +5,12 @@ public class LFUAlgorithm implements PageReplacementAlgorithm {
 
     private int pageFaults;
 
+    LFUAlgorithm() {
+        pageFaults = 0;
+    }
+
     @Override
     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) {
-        pageFaults = 0;
         Set<Integer> frames = new HashSet<>(numberOfFrames);
         Map<Integer, Integer> frequencyMap = new HashMap<>();
 
