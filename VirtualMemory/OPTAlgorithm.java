@@ -4,12 +4,14 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class OPTAlgorithm implements PageReplacementAlgorithm {
+public class OPTAlgorithm implements PageReplacementAlgorithm 
+{
     private int pageFaults;
     private List<Integer> frames;
     private List<Integer> pageReferenceString;
 
-    OPTAlgorithm() {
+    OPTAlgorithm() 
+    {
         pageFaults = 0;
     }
 
