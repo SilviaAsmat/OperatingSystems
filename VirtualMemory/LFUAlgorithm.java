@@ -1,6 +1,8 @@
+
 import java.util.*;
 
 public class LFUAlgorithm implements PageReplacementAlgorithm {
+
     private int pageFaults;
 
     @Override

@@ -1,6 +1,8 @@
+
 import java.util.*;
 
 public class FIFOAlgorithm implements PageReplacementAlgorithm {
+
     private int pageFaults;
 
     @Override

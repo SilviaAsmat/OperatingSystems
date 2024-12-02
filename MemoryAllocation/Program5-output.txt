@@ -1,3 +1,8 @@
+Name:   Silvia Asmat
+Course:   COSC 4302 - Operating Systems
+Program:  Six
+Due Date: 11/27/2024
+
 Enter the initial memory size in MB: 2
 ==================================================
 allocator> RQ p0 1000 f

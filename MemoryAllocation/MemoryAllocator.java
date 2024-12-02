@@ -1,16 +1,59 @@
+//********************************************************************
+//
+//  Author:        Silvia Asmat
+//
+//  Program #:     Six
+//
+//  File Name:     MemoryAllocator.java
+//
+//  Course:        COSC 4302 - Operating Systems
+//
+//  Due Date:      11/27/2024
+//
+//  Java Version:  23.0.1
+//
+//  Instructor:    Prof. Fred Kumi 
+//
+//  Chapter:       Chapter 9
+//
+//  Description:   This class will contain the logic for the memory allocator.
+//                 It will contain methods to request memory, release memory,
+//                 compact memory, and report status.
+//
+//********************************************************************  
 import java.util.*;
 
 public class MemoryAllocator 
 {
     private final List<MemoryBlock> memoryBlocks;
-
+    //***************************************************************
+    //
+    //  Method:       MemoryAllocator
+    //
+    //  Description:  The constructor of the MemoryAllocator class
+    //
+    //  Parameters:   long, String
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public MemoryAllocator(long initialSize, String processId) 
     {
         this.memoryBlocks = new ArrayList<>();
         // Initialize with one large free block
         memoryBlocks.add(new MemoryBlock(0, initialSize, true, processId));
     }
-
+    //***************************************************************
+    //
+    //  Method:       requestMemory
+    //
+    //  Description:  This method will request memory based on the strategy
+    //
+    //  Parameters:   String, int, char
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void requestMemory(String processId, int memorySize, char strategy) 
     {
         // Implement memory request logic based on strategy
@@ -33,8 +76,17 @@ public class MemoryAllocator
         }
         
     }
-
-    // Change to return boolean?
+    //***************************************************************
+    //
+    //  Method:       firstFit
+    //
+    //  Description:  This method will implement the first fit strategy
+    //
+    //  Parameters:   String, int
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void firstFit(String processId, int newBlockSize) 
     {
         memoryBlocks.stream()
@@ -45,6 +97,17 @@ public class MemoryAllocator
                 () -> System.err.println("Error: No space available.")
             );
     }
+    //***************************************************************
+    //
+    //  Method:       insertBlockAtSpace
+    //
+    //  Description:  This method will insert a block at a specific index
+    //
+    //  Parameters:   long, int, String
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void insertBlockAtSpace(long newBlockSize, int insertIndex, String processId)
     {
         // This gets a block that exists at this index
@@ -58,18 +121,30 @@ public class MemoryAllocator
             targetBlock.setStartAddress(targetBlock.getStartAddress() + newBlockSize);
         } 
     }
+    //***************************************************************
+    //
+    //  Method:       compactMemory
+    //
+    //  Description:  This method will compact the memory blocks, 
+    //                moving all the free blocks to one end of the list
+    //
+    //  Parameters:   None
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void compactMemory() 
     {
         int lastNotFreeBlockFoundAt = -1;
         int blocksArrayLength = memoryBlocks.size();
         for (int currentIndex = 0; currentIndex < blocksArrayLength; ++currentIndex) 
         {
-            // If the current element is not zero,
+            // If the current index is not free,
             if (memoryBlocks.get(currentIndex).isFree())
             {
-                // Increment the lastNonZeroFoundAt.
+                // Increment the lastNotFreeBlockFoundAt.
                 lastNotFreeBlockFoundAt++;
-                // Swap the current element with the element at the lastNonZeroFoundAt position.
+                // Swap the current element with the element at the lastNotFreeBlockFoundAt position.
                 MemoryBlock temp = memoryBlocks.get(lastNotFreeBlockFoundAt);
                 memoryBlocks.set(lastNotFreeBlockFoundAt, memoryBlocks.get(currentIndex));
                 memoryBlocks.set(currentIndex, temp);
@@ -77,7 +152,19 @@ public class MemoryAllocator
         }
         System.out.println("Memory compacted.");
     }
-
+    //***************************************************************
+    //
+    //  Method:       bestFit
+    //
+    //  Description:  This method will implement the best fit strategy
+    //                to allocate memory, searching for the smallest block
+    //                that fits the process
+    //
+    //  Parameters:   String, int
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void bestFit(String processId, int newBlockSize) 
     {
         memoryBlocks.stream()
@@ -85,7 +172,19 @@ public class MemoryAllocator
             .min(Comparator.comparing(MemoryBlock::getSize))
             .ifPresent(block -> insertBlockAtSpace(newBlockSize, memoryBlocks.indexOf(block), processId));
     }
-
+    //***************************************************************
+    //
+    //  Method:       worstFit
+    //
+    //  Description:  This method will implement the worst fit strategy
+    //                to allocate memory, searching for the largest block
+    //                that fits the process
+    //
+    //  Parameters:   String, int
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void worstFit(String processId, int newBlockSize) 
     {
         memoryBlocks.stream()
@@ -94,8 +193,17 @@ public class MemoryAllocator
             .ifPresent(block -> insertBlockAtSpace(newBlockSize, memoryBlocks.indexOf(block), processId));
 
     }
-    // if  a  partition  being  released  is  adjacent  to  an 
-    // existing hole, be sure to combine the two holes into a single hole.
+    //***************************************************************
+    //
+    //  Method:       releaseMemory
+    //
+    //  Description:  This method will release memory for a process
+    //
+    //  Parameters:   String
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void releaseMemory(String processId) 
     {
         int index = memoryBlocks.stream()
@@ -114,7 +222,17 @@ public class MemoryAllocator
             System.err.println("Error: Process not found.");
         }
     }
-
+    //***************************************************************
+    //
+    //  Method:       combineBlocks
+    //
+    //  Description:  This method will combine two blocks if they are free
+    //
+    //  Parameters:   int
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void combineBlocks(int index)
     {
         if (memoryBlocks.get(index + 1).isFree()) 
@@ -128,7 +246,17 @@ public class MemoryAllocator
             memoryBlocks.remove(index - 1);
         }
     }
-
+    //***************************************************************
+    //
+    //  Method:       reportStatus
+    //
+    //  Description:  This method will report the status of the memory
+    //
+    //  Parameters:   None
+    //
+    //  Returns:      N/A
+    //
+    //**************************************************************
     public void reportStatus() 
     {
         System.out.println("Total amount of blocks: " + memoryBlocks.size() + " blocks");
