@@ -12,15 +12,16 @@ public class Program6 {
     {
         try (Scanner scanner = new Scanner(System.in)) 
         {
-            String input = "";
+            String input;
             System.out.println("""
                 Enter the page-reference string (comma or space separated)
                 Enter 'random' to have a random string generated
                 Enter 0 to exit:
                 """);
+            input = scanner.nextLine();
             while (!input.equals("0")) 
             {
-                input = scanner.nextLine();
+                
                 if(input.equals("random")) 
                 {
                     System.out.println("Enter a length for the page-reference string:");
@@ -55,6 +56,7 @@ public class Program6 {
                 Enter 'random' to have a random string generated
                 Enter 0 to exit:
                 """);
+                input = scanner.nextLine();
             }//end while
         }
     }
