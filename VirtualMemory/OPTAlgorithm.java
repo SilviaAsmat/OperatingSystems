@@ -1,8 +1,6 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class OPTAlgorithm implements PageReplacementAlgorithm 
 {
@@ -15,56 +13,72 @@ public class OPTAlgorithm implements PageReplacementAlgorithm
         pageFaults = 0;
     }
 
-
     @Override
     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
     {
-        int indexOfFurthestFrame;
+        int victimFrameIndex;
         this.pageReferenceString = pageReferenceString;
+        // Initialize frames
         frames = new ArrayList<>(numberOfFrames);
+        // Fill initial frames and increment pageFaults
         for(int i = 0; i < numberOfFrames; i++)
         {
             frames.add(pageReferenceString.get(i));
             pageFaults++;
+            System.out.println("Page Faults: " + pageFaults);
+            System.out.println("Frames: " + frames.toString());
         }
+        // Iterate through the rest of the pageReferenceString
         for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
         {
             if(!frames.contains(pageReferenceString.get(i)))
             {
-                indexOfFurthestFrame = findFurtherestOccurrence();
-                replaceFrame(indexOfFurthestFrame, i);
+                System.err.println("==================================================================");
+                System.out.println("current page: " + pageReferenceString.get(i));
+                System.out.println("Page Faults: " + pageFaults);
+                System.out.println("Frames: " + frames.toString());
+                victimFrameIndex = findVictim(i);
+                replaceFrame(victimFrameIndex, i);
                 pageFaults++;
+                System.out.println("Page Faults: " + pageFaults);
+                System.out.println("Frames: " + frames.toString());
+                System.err.println("==================================================================");
             }
         }
     }
 
     public void replaceFrame(int indexOfFurthestFrame, int indexOfNewFrame)
     {
+        // out of bounds
+        // String frameToReplace = pageReferenceString.get(indexOfFurthestFrame);
+
         frames.set(indexOfFurthestFrame, pageReferenceString.get(indexOfNewFrame));
     }
-
-    public int findFurtherestOccurrence()
+    // Find the frame that will not be used for the longest time
+    public int findVictim(int currentIndexOfPage)
     {
-        // for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
-        // {
-        //     int lastOccurrence = pageReferenceString.subList(i, -1).lastIndexOf(pageReferenceString.get(i));
-            
-        // }
-        int frameToReplace;
-        List<Integer> indicesOfLastOccurrence = new ArrayList<>(frames.size());
+        int indexOfVictimInFrames;
+        List<Integer> indexOfFramesNextOccurenceInReferenceString = new ArrayList<>();
+        List<Integer> notSearchedPageReferenceSubString = pageReferenceString.subList(currentIndexOfPage, pageReferenceString.size());
+        // Find the next occurrence of each frame in the notSearchedPageReferenceSubString
         for (int i = 0; i < frames.size(); i++) 
         {
-            indicesOfLastOccurrence.add(pageReferenceString.lastIndexOf(frames.get(i)));
+            indexOfFramesNextOccurenceInReferenceString.add(frames.indexOf(notSearchedPageReferenceSubString.get(i)));
         }
-        if (indicesOfLastOccurrence.contains(-1)) 
+        // indexOf returns -1 if the element is not found
+        // Find the first frame that was not found
+        if (indexOfFramesNextOccurenceInReferenceString.contains(-1)) 
         {
-            frameToReplace = indicesOfLastOccurrence.indexOf(-1);
+            //Find the first frame that was not found in the pageReferenceString
+            indexOfVictimInFrames = indexOfFramesNextOccurenceInReferenceString.indexOf(-1);
         } 
+        // Find the frame that will not be used for the longest time
         else 
         {
-            frameToReplace = indicesOfLastOccurrence.indexOf(Collections.max(indicesOfLastOccurrence));
+            indexOfVictimInFrames = Collections.max(indexOfFramesNextOccurenceInReferenceString);
         }
-        return frames.get(frameToReplace);
+        System.err.println("Frame to replace: " + frames.get(indexOfVictimInFrames));
+        return indexOfVictimInFrames;
     }
 
     @Override
