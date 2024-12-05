@@ -1,72 +1,51 @@
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Set;
 
 public class LRUAlgorithm implements PageReplacementAlgorithm 
 {
     private int pageFaults;
-    private List<Integer> frames;
-    private List<Integer> pageReferenceString;
+    private Set<Integer> frames;
+    private final List<Integer> pageReferenceString;
+    private final int numberOfFrames;
+    private final Map<Integer, Integer> lruMap = new HashMap<>();
 
-    LRUAlgorithm() 
-    {
-        pageFaults = 0;
-    }
-
-
-    @Override
-    public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
+    LRUAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
     {
         this.pageReferenceString = pageReferenceString;
-        frames = new ArrayList<>(numberOfFrames);
-        for(int i = 0; i < numberOfFrames; i++)
+        this.numberOfFrames = numberOfFrames;
+        pageFaults = 0;
+    }
+    @Override
+    public void applyAlgorithm() 
+    {
+        frames = new HashSet<>(numberOfFrames);
+        for(int i = 0; i < pageReferenceString.size(); i++)
         {
-            frames.add(pageReferenceString.get(i));
-            pageFaults++;
-        }
-        for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
-        {
-            // indexOfFurthestFrame = findLeastRecentOccurrence();
             replaceFrame(i);
         }
     }
 
     public void replaceFrame(int indexOfNewFrame)
     {
-        // frames.set(indexOfFurthestFrame, pageReferenceString.get(indexOfNewFrame));
-        if(frames.contains(pageReferenceString.get(indexOfNewFrame)))
+        int page = pageReferenceString.get(indexOfNewFrame);
+        if (!frames.contains(page)) 
         {
-            frames.remove(pageReferenceString.get(indexOfNewFrame));
-            frames.add(pageReferenceString.get(indexOfNewFrame));
-        }
-        else
-        {
-            frames.remove(0);
-            frames.add(pageReferenceString.get(indexOfNewFrame));
-            pageFaults++;
-        }
-
+                if (frames.size() == numberOfFrames) 
+                {
+                    int victimFrame = Collections.min(lruMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+                    frames.remove(victimFrame);
+                    lruMap.remove(victimFrame);
+                }
+                frames.add(page);
+                pageFaults++;
+            }
+            lruMap.put(page, indexOfNewFrame);
     }
-
-    // public int findLeastRecentOccurrence()
-    // {
-    //     int frameToReplace;
-    //     List<Integer> indicesOfLastOccurrence = new ArrayList<>(frames.size());
-    //     for (int i = 0; i < frames.size(); i++) 
-    //     {
-    //         indicesOfLastOccurrence.add(pageReferenceString.lastIndexOf(frames.get(i)));
-    //     }
-    //     if (indicesOfLastOccurrence.contains(-1)) 
-    //     {
-    //         frameToReplace = indicesOfLastOccurrence.indexOf(-1);
-    //     } 
-    //     else 
-    //     {
-    //         frameToReplace = indicesOfLastOccurrence.indexOf(Collections.max(indicesOfLastOccurrence));
-    //     }
-    //     return frames.get(frameToReplace);
-    // }
 
     @Override
     public int getPageFaults() 
@@ -75,72 +54,4 @@ public class LRUAlgorithm implements PageReplacementAlgorithm
     }
 }
 
-// import java.util.*;
 
-// public class FIFOAlgorithm implements PageReplacementAlgorithm {
-
-//     private int pageFaults;
-
-//     FIFOAlgorithm() {
-//         pageFaults = 0;
-//     }
-
-//     @Override
-//     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) {
-//         Set<Integer> frames = new HashSet<>(numberOfFrames);
-//         Queue<Integer> queue = new LinkedList<>();
-
-//         for (int page : pageReferenceString) {
-//             if (!frames.contains(page)) {
-//                 if (frames.size() == numberOfFrames) {
-//                     int removed = queue.poll();
-//                     frames.remove(removed);
-//                 }
-//                 frames.add(page);
-//                 queue.add(page);
-//                 pageFaults++;
-//             }
-//         }
-//     }
-
-//     @Override
-//     public int getPageFaults() {
-//         return pageFaults;
-//     }
-// }
-
-
-// import java.util.*;
-
-// public class LRUAlgorithm implements PageReplacementAlgorithm {
-
-//     private int pageFaults;
-
-//     LRUAlgorithm() {
-//         pageFaults = 0;
-//     }
-//     @Override
-//     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) {
-//         Set<Integer> frames = new HashSet<>(numberOfFrames);
-//         Map<Integer, Integer> lruMap = new HashMap<>();
-
-//         for (int i = 0; i < pageReferenceString.size(); i++) {
-//             int page = pageReferenceString.get(i);
-//             if (!frames.contains(page)) {
-//                 if (frames.size() == numberOfFrames) {
-//                     int lruPage = Collections.min(lruMap.entrySet(), Map.Entry.comparingByValue()).getKey();
-//                     frames.remove(lruPage);
-//                     lruMap.remove(lruPage);
-//                 }
-//                 frames.add(page);
-//                 pageFaults++;
-//             }
-//             lruMap.put(page, i);
-//         }
-//     }
-
-//     @Override
-//     public int getPageFaults() {
-//         return pageFaults;
-//     }
-// }

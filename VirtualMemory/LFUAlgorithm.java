@@ -7,18 +7,20 @@ public class LFUAlgorithm implements PageReplacementAlgorithm
 {
     private int pageFaults;
     private List<Integer> frames;
-    private List<Integer> pageReferenceString;
+    private final List<Integer> pageReferenceString;
+    private final int numberOfFrames;
 
-    LFUAlgorithm() 
+    LFUAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
     {
+        this.pageReferenceString = pageReferenceString;
+        this.numberOfFrames = numberOfFrames;
         pageFaults = 0;
     }
 
     @Override
-    public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
+    public void applyAlgorithm() 
     {
         int victimFrameIndex;
-        this.pageReferenceString = pageReferenceString;
         // Initialize frames
         frames = new ArrayList<>(numberOfFrames);
         // Fill initial frames and increment pageFaults
@@ -50,6 +52,7 @@ public class LFUAlgorithm implements PageReplacementAlgorithm
         int indexOfVictimInFrames;
         List<Integer> countOfFramesPreviousOccurences = new ArrayList<>();
         List<Integer> usedPageReferenceString = pageReferenceString.subList(0, currentIndexOfPage);
+       // System.err.println("usedPageReferenceString: " + usedPageReferenceString);
         for (int i = 0; i < frames.size(); i++) 
         {
             countOfFramesPreviousOccurences.add(Collections.frequency(usedPageReferenceString, frames.get(i)));

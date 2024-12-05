@@ -7,37 +7,39 @@ public class FIFOAlgorithm implements PageReplacementAlgorithm
 {
     private int pageFaults;
     private List<Integer> frames;
-    private List<Integer> pageReferenceString;
+    private final List<Integer> pageReferenceString;
+    private final int numberOfFrames;
 
-    FIFOAlgorithm() 
+    FIFOAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
     {
+        this.pageReferenceString = pageReferenceString;
+        this.numberOfFrames = numberOfFrames;
         pageFaults = 0;
     }
 
     @Override
-    public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
+    public void applyAlgorithm() 
     {
-        this.pageReferenceString = pageReferenceString;
+        
         frames = new ArrayList<>(numberOfFrames);
-        for(int i = 0; i < numberOfFrames; i++)
-        {
-            frames.add(pageReferenceString.get(i));
-            pageFaults++;
-        }
-        for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
+        for(int i = 0; i < pageReferenceString.size(); i++)
         {
             if(!frames.contains(pageReferenceString.get(i)))
             {
-                replaceFrame(i);
+                replaceFrame(i, numberOfFrames);
                 pageFaults++;
             }
         }
     }
 
-    public void replaceFrame(int indexOfNewFrame)
+    public void replaceFrame(int indexOfNewFrame, int numberOfFrames)
     {
         // FIFO
-        frames.remove(0);
+        if(frames.size() == numberOfFrames)
+        {
+            frames.remove(0);
+            
+        }
         frames.add(pageReferenceString.get(indexOfNewFrame));
     }
 
@@ -47,38 +49,3 @@ public class FIFOAlgorithm implements PageReplacementAlgorithm
         return pageFaults;
     }
 }
-
-
-// import java.util.*;
-
-// public class FIFOAlgorithm implements PageReplacementAlgorithm {
-
-//     private int pageFaults;
-
-//     FIFOAlgorithm() {
-//         pageFaults = 0;
-//     }
-
-//     @Override
-//     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) {
-//         Set<Integer> frames = new HashSet<>(numberOfFrames);
-//         Queue<Integer> queue = new LinkedList<>();
-
-//         for (int page : pageReferenceString) {
-//             if (!frames.contains(page)) {
-//                 if (frames.size() == numberOfFrames) {
-//                     int removed = queue.poll();
-//                     frames.remove(removed);
-//                 }
-//                 frames.add(page);
-//                 queue.add(page);
-//                 pageFaults++;
-//             }
-//         }
-//     }
-
-//     @Override
-//     public int getPageFaults() {
-//         return pageFaults;
-//     }
-// }

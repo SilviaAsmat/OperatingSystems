@@ -37,14 +37,14 @@ public class Program6 {
     private void runPageReplacementAlgorithm(int numberOfFrames) 
     {
         List<PageReplacementAlgorithm> algorithms = Arrays.asList(
-            new FIFOAlgorithm(),
-            new LRUAlgorithm(),
-            new LFUAlgorithm(),
-            new OPTAlgorithm()
+            new FIFOAlgorithm(pageReferenceString, numberOfFrames),
+            new LRUAlgorithm(pageReferenceString, numberOfFrames),
+            new LFUAlgorithm(pageReferenceString, numberOfFrames),
+            new OPTAlgorithm(pageReferenceString, numberOfFrames)
         );
         for (PageReplacementAlgorithm algorithm : algorithms) 
         {
-            algorithm.applyAlgorithm(pageReferenceString, numberOfFrames);
+            algorithm.applyAlgorithm();
             System.out.println(algorithm.getClass().getSimpleName() + " page faults: " + algorithm.getPageFaults());
         }
     }
