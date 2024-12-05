@@ -25,24 +25,15 @@ public class OPTAlgorithm implements PageReplacementAlgorithm
         {
             frames.add(pageReferenceString.get(i));
             pageFaults++;
-            System.out.println("Page Faults: " + pageFaults);
-            System.out.println("Frames: " + frames.toString());
         }
         // Iterate through the rest of the pageReferenceString
         for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
         {
             if(!frames.contains(pageReferenceString.get(i)))
             {
-                System.err.println("==================================================================");
-                System.out.println("current page: " + pageReferenceString.get(i));
-                System.out.println("Page Faults: " + pageFaults);
-                System.out.println("Frames: " + frames.toString());
                 victimFrameIndex = findVictim(i);
                 replaceFrame(victimFrameIndex, i);
                 pageFaults++;
-                System.out.println("Page Faults: " + pageFaults);
-                System.out.println("Frames: " + frames.toString());
-                System.err.println("==================================================================");
             }
         }
     }
