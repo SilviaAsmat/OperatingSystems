@@ -14,7 +14,6 @@ public class FIFOAlgorithm implements PageReplacementAlgorithm
         pageFaults = 0;
     }
 
-
     @Override
     public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
     {

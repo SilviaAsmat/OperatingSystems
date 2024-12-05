@@ -68,7 +68,6 @@ public class OPTAlgorithm implements PageReplacementAlgorithm
             // Find the frame that will not be used for the longest time, by finding the index in indexOfFramesNextOccurenceInReferenceString that holds the maximum value 
             indexOfVictimInFrames = indexOfFramesNextOccurenceInReferenceString.indexOf(Collections.max(indexOfFramesNextOccurenceInReferenceString));
         }
-        System.err.println("Frame to replace: " + frames.get(indexOfVictimInFrames));
         return indexOfVictimInFrames;
     }
 

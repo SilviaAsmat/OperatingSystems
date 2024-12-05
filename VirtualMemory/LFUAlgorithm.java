@@ -1,35 +1,66 @@
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class LFUAlgorithm implements PageReplacementAlgorithm {
-
+public class LFUAlgorithm implements PageReplacementAlgorithm 
+{
     private int pageFaults;
+    private List<Integer> frames;
+    private List<Integer> pageReferenceString;
 
-    LFUAlgorithm() {
+    LFUAlgorithm() 
+    {
         pageFaults = 0;
     }
 
     @Override
-    public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) {
-        Set<Integer> frames = new HashSet<>(numberOfFrames);
-        Map<Integer, Integer> frequencyMap = new HashMap<>();
-
-        for (int page : pageReferenceString) {
-            if (!frames.contains(page)) {
-                if (frames.size() == numberOfFrames) {
-                    int lfuPage = Collections.min(frequencyMap.entrySet(), Map.Entry.comparingByValue()).getKey();
-                    frames.remove(lfuPage);
-                    frequencyMap.remove(lfuPage);
-                }
-                frames.add(page);
+    public void applyAlgorithm(List<Integer> pageReferenceString, int numberOfFrames) 
+    {
+        int victimFrameIndex;
+        this.pageReferenceString = pageReferenceString;
+        // Initialize frames
+        frames = new ArrayList<>(numberOfFrames);
+        // Fill initial frames and increment pageFaults
+        for(int i = 0; i < numberOfFrames; i++)
+        {
+            frames.add(pageReferenceString.get(i));
+            pageFaults++;
+        }
+        // Iterate through the rest of the pageReferenceString
+        for(int i = numberOfFrames; i < pageReferenceString.size(); i++)
+        {
+            if(!frames.contains(pageReferenceString.get(i)))
+            {
+                victimFrameIndex = findVictim(i);
+                replaceFrame(victimFrameIndex, i);
                 pageFaults++;
             }
-            frequencyMap.put(page, frequencyMap.getOrDefault(page, 0) + 1);
         }
     }
 
+    public void replaceFrame(int indexOfVictim, int indexOfNewFrame)
+    {
+        frames.remove(indexOfVictim);
+        frames.add(pageReferenceString.get(indexOfNewFrame));
+    }
+    // Find the frame that will not be used for the longest time
+    public int findVictim(int currentIndexOfPage)
+    {
+        int indexOfVictimInFrames;
+        List<Integer> countOfFramesPreviousOccurences = new ArrayList<>();
+        List<Integer> usedPageReferenceString = pageReferenceString.subList(0, currentIndexOfPage);
+        for (int i = 0; i < frames.size(); i++) 
+        {
+            countOfFramesPreviousOccurences.add(Collections.frequency(usedPageReferenceString, frames.get(i)));
+        }
+        indexOfVictimInFrames = countOfFramesPreviousOccurences.indexOf(Collections.min(countOfFramesPreviousOccurences));
+        return indexOfVictimInFrames;
+    }
+
     @Override
-    public int getPageFaults() {
+    public int getPageFaults() 
+    {
         return pageFaults;
     }
 }
