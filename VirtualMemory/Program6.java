@@ -3,30 +3,23 @@ import java.util.*;
 
 public class Program6 {
     private List<Integer> pageReferenceString = new ArrayList<>();
-    public static void main(String[] args) {
+    private final Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) 
+    {
         Program6 program = new Program6();
         program.run();
     }
 
     public void run() 
     {
-        try (Scanner scanner = new Scanner(System.in)) 
-        {
             String input;
-            System.out.println("""
-                Enter the page-reference string (comma or space separated)
-                Enter 'random' to have a random string generated
-                Enter 0 to exit:
-                """);
-            input = scanner.nextLine();
+            input = getUserReferenceString();
             while (!input.equals("0")) 
             {
-                
                 if(input.equals("random")) 
                 {
                     System.out.println("Enter a length for the page-reference string:");
-                    int length = scanner.nextInt();
-                    scanner.nextLine(); // consume the newline
+                    int length = getUserIntegerInput();
                     pageReferenceString = generateRandomPageReferenceString(length);
                     System.out.println("Random page-reference string: " + pageReferenceString);
                 } 
@@ -35,30 +28,69 @@ public class Program6 {
                     pageReferenceString = parsePageReferenceString(input);
                 }
                 System.out.println("Enter the number of page frames:");
-                int numberOfFrames = scanner.nextInt();
-                scanner.nextLine(); // consume the newline
-                    
-                List<PageReplacementAlgorithm> algorithms = Arrays.asList(
-                        new FIFOAlgorithm(),
-                        new LRUAlgorithm(),
-                        new LFUAlgorithm(),
-                        new OPTAlgorithm()
-                );
-
-                for (PageReplacementAlgorithm algorithm : algorithms) 
-                {
-                    algorithm.applyAlgorithm(pageReferenceString, numberOfFrames);
-                    System.out.println(algorithm.getClass().getSimpleName() + " page faults: " + algorithm.getPageFaults());
-                }
+                int numberOfFrames = getUserIntegerInput();
+                runPageReplacementAlgorithm(numberOfFrames);
                 pageReferenceString.clear();
-                System.out.println("""
+                input = getUserReferenceString();
+            }//end while
+        
+    }
+
+    private void runPageReplacementAlgorithm(int numberOfFrames) 
+    {
+        List<PageReplacementAlgorithm> algorithms = Arrays.asList(
+            new FIFOAlgorithm(),
+            new LRUAlgorithm(),
+            new LFUAlgorithm(),
+            new OPTAlgorithm()
+        );
+        for (PageReplacementAlgorithm algorithm : algorithms) 
+        {
+            algorithm.applyAlgorithm(pageReferenceString, numberOfFrames);
+            System.out.println(algorithm.getClass().getSimpleName() + " page faults: " + algorithm.getPageFaults());
+        }
+    }
+
+    private String getUserReferenceString()
+    {
+        String input = "";
+        while(input.isEmpty())
+        {
+            System.out.println("""
                 Enter the page-reference string (comma or space separated)
                 Enter 'random' to have a random string generated
                 Enter 0 to exit:
                 """);
-                input = scanner.nextLine();
-            }//end while
+            input = scanner.nextLine();
+            if(!input.matches("[0-9,\\s]+") && !input.equals("random"))
+            {
+                System.out.println("Integers or random only. Please enter a valid page-reference string.");
+                input = "";
+            }
         }
+        return input;
+    }
+
+    private Integer getUserIntegerInput()
+    {
+        int input = 0;
+        while(input == 0)
+        {
+            try {
+                input = scanner.nextInt();
+                scanner.nextLine(); // consume the newline
+                if(input <= 0)
+                {
+                    System.out.println("Please enter a number greater than 0.");
+                    input = 0;
+                }
+            } catch(InputMismatchException e) {
+                System.out.println("Integers only. Please enter a valid number.");
+                input = 0;
+                scanner.nextLine(); // consume the invalid input
+            }
+        }
+        return input;
     }
 
     private List<Integer> parsePageReferenceString(String input) {
