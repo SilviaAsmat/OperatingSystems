@@ -18,9 +18,7 @@ public class Program6 {
             {
                 if(input.equals("random")) 
                 {
-                    System.out.println("Enter a length for the page-reference string:");
-                    int length = getUserIntegerInput();
-                    pageReferenceString = generateRandomPageReferenceString(length);
+                    pageReferenceString = generateRandomPageReferenceString();
                     System.out.println("Random page-reference string: " + pageReferenceString);
                 } 
                 else 
@@ -102,9 +100,9 @@ public class Program6 {
     }
     // let the program generate 
     // one, randomly, with the numbers ranging from 0 to 9.
-    public List<Integer> generateRandomPageReferenceString(int length) {
+    public List<Integer> generateRandomPageReferenceString() {
         Random random = new Random();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < 15; i++) {
             pageReferenceString.add(random.nextInt(10));
         }
         return pageReferenceString;
