@@ -71,20 +71,20 @@ public class Program6 {
         return input;
     }
 
-    private Integer getUserIntegerInput()
-    {
+    private Integer getUserIntegerInput() {
         int input = 0;
-        while(input == 0)
-        {
+        while (input == 0) {
             try {
                 input = scanner.nextInt();
                 scanner.nextLine(); // consume the newline
-                if(input <= 0)
-                {
+                if (input <= 0) {
                     System.out.println("Please enter a number greater than 0.");
                     input = 0;
+                } else if (input > pageReferenceString.size()) { // Set a reasonable upper limit
+                    System.out.println("Please enter a frame size smaller or equal to the page-reference string.");
+                    input = 0;
                 }
-            } catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Integers only. Please enter a valid number.");
                 input = 0;
                 scanner.nextLine(); // consume the invalid input
